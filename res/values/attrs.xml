@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="CircleProgresBar">
+		<attr name="innerCircleRadius" format="dimension"></attr>
+		<attr name="innerCircleColor" format="reference|color"></attr>
+		
+		<attr name="middleCircleRadius" format="dimension"></attr>
+		<attr name="middleCircleWidth" format="dimension"></attr>
+		<attr name="middleCircleColorNormal" format="reference|color"></attr>
+		<attr name="middleCircleColorProgress" format="reference|color"></attr>
+		
+		<attr name="excirclACircleRadius" format="dimension"></attr>
+		<attr name="excirclACircleWidth" format="dimension"></attr>
+		<attr name="excirclACircleColorNormal" format="reference|color"></attr>
+		<attr name="excirclACircleColorProgress" format="reference|color"></attr>
+		
+		<attr name="excirclBCircleRadius" format="dimension"></attr>
+		<attr name="excirclBCircleWidth" format="dimension"></attr>
+		<attr name="excirclBCircleColorNormal" format="reference|color"></attr>
+		<attr name="excirclBCircleColorProgress" format="reference|color"></attr>
+		
+	</declare-styleable>
+	
+</resources>

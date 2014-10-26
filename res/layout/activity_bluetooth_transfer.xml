@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/im.device.appshare"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#B3D9D9"
+    android:orientation="vertical"
+     >
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/deep_blue"
+        >
+    </TextView>
+    <RelativeLayout 
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        >
+        <im.device.appshare.widget.CircleProgresBar
+        		android:id="@+id/progress"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                app:excirclACircleColorNormal="#0000EE"
+                app:excirclACircleColorProgress="#0000EE"
+                app:excirclACircleRadius="80dp"
+                app:excirclACircleWidth="1dp"
+                app:excirclBCircleColorNormal="#228B22"
+                app:excirclBCircleColorProgress="#228B22"
+                app:excirclBCircleRadius="80dp"
+                app:excirclBCircleWidth="15dp"
+                app:innerCircleColor="#E0FFFF"
+                app:innerCircleRadius="86dp"
+                app:middleCircleColorNormal="#00008B"
+                app:middleCircleColorProgress="#00008B"
+                app:middleCircleRadius="65dp"
+                app:middleCircleWidth="15dp"
+         >
+    </im.device.appshare.widget.CircleProgresBar>
+
+        <ImageView android:id="@+id/icon"
+            android:layout_width="132dp"
+            android:layout_height="132dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon"
+            android:visibility="gone"
+             />
+
+    </RelativeLayout>
+    
+	<LinearLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:orientation="vertical"
+	    >
+    <TextView
+        android:id="@+id/tv_filesize"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="@color/deep_blue"
+       />
+    
+    <TextView
+        android:id="@+id/tv_sendsize"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="@color/deep_blue"
+       />
+    <TextView
+        android:id="@+id/tv_transpeed"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="@color/deep_blue"
+       />
+    <TextView
+        android:id="@+id/tv_needtime"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:gravity="left"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="@color/deep_blue"
+       />
+	</LinearLayout>
+        
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/selector_close" 
+        />
+
+</LinearLayout>
