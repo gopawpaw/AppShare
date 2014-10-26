@@ -208,7 +208,7 @@ public class DeviceAppShareActivity extends BaseActivity implements HttpActionLi
 		String appName = pinfo.applicationInfo.loadLabel(getPackageManager())
 		.toString();
 //		sendShareApk(appName, apkPath);
-		BluetoothScanerActivity.actionStart(this, appName, apkPath);
+//		BluetoothScanerActivity.actionStart(this, appName, apkPath);
 		
 		TCAgent.onEvent(this, "应用分享-分享apk",label,map);
 		

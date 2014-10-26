@@ -3,9 +3,25 @@
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
   android:orientation="vertical"
-  android:background="@drawable/selector_child3"
   android:focusable="true"
   android:clickable="true"
   >
-
+<TextView android:id="@+id/tv_name"
+	    android:layout_width="wrap_content"
+  		android:layout_height="wrap_content"
+  		android:textColor="@color/black"
+  		android:focusable="false"
+	    android:clickable="false"
+	    android:singleLine="true"
+	    android:ems="6"
+	    android:ellipsize="end"
+	    android:gravity="center_horizontal"
+    />
+<ImageView 
+    android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"
+  	android:background="@drawable/selector_child3"
+  	android:focusable="false"
+	android:clickable="false"
+    />
 </LinearLayout>

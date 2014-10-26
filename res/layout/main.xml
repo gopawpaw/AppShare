@@ -1,49 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/appshare_bg"
-    android:orientation="vertical" >
-
-    <HorizontalScrollView
+    android:background="@drawable/appshare_bg" >
+    <com.pingan.pabank.activity.homepage.animation.shortcut.view.DragLayer
+        android:id="@+id/draglayer"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+         >
 
-        <LinearLayout
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:id="@+id/ll_apps"
+                android:layout_width="fill_parent"
+                android:layout_height="270dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <View
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
+            android:layout_weight="1" />
 
-            <LinearLayout
-                android:id="@+id/ll_apps_a"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal" >
-            </LinearLayout>
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" >
 
-            <LinearLayout
-                android:id="@+id/ll_apps_b"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="-10dp"
-                android:orientation="horizontal" >
-            </LinearLayout>
-        </LinearLayout>
-    </HorizontalScrollView>
-	<View 
-	    android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-	    />
-    <HorizontalScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
             <LinearLayout
                 android:id="@+id/ll_child"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal" >
             </LinearLayout>
-    </HorizontalScrollView>
-</LinearLayout>
+        </HorizontalScrollView>
+    </com.pingan.pabank.activity.homepage.animation.shortcut.view.DragLayer>
+    <ImageView android:id="@+id/iv_sun"
+        android:layout_width="270dp"
+        android:layout_height="210dp"
+        android:src="@drawable/appshare_sun"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        />
+
+    <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="150dp"
+            android:layout_alignParentBottom="true"
+        	android:layout_alignParentRight="true"
+            android:src="@drawable/appshare_butterfly" />
+    
+    <im.device.appshare.TestView
+        android:id="@+id/radar_scaner_testview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </im.device.appshare.TestView>
+
+</RelativeLayout>
