@@ -12,6 +12,11 @@
 package im.device.appshare;
 
 import im.device.appshare.TestView.Point;
+import im.device.appshare.animation.shortcut.view.DragController;
+import im.device.appshare.animation.shortcut.view.DragLayer;
+import im.device.appshare.animation.shortcut.view.DragLayer.OnDockEndListener;
+import im.device.appshare.animation.shortcut.view.DragLayer.OnDragEndListener;
+import im.device.appshare.animation.shortcut.view.DragLayer.OnMoveListener;
 import im.device.appshare.utils.VibratorHelper;
 
 import java.util.ArrayList;
@@ -42,11 +47,6 @@ import android.widget.TextView;
 import com.gopawpaw.droidcore.activity.BaseActivity;
 import com.pingan.core.bluetooth.scanner.BluetoothScanner;
 import com.pingan.core.bluetooth.scanner.ScannerCallback;
-import com.pingan.pabank.activity.homepage.animation.shortcut.view.DragController;
-import com.pingan.pabank.activity.homepage.animation.shortcut.view.DragLayer;
-import com.pingan.pabank.activity.homepage.animation.shortcut.view.DragLayer.OnDockEndListener;
-import com.pingan.pabank.activity.homepage.animation.shortcut.view.DragLayer.OnDragEndListener;
-import com.pingan.pabank.activity.homepage.animation.shortcut.view.DragLayer.OnMoveListener;
 
 /**
  * 

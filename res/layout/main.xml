@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/appshare_bg" >
-    <com.pingan.pabank.activity.homepage.animation.shortcut.view.DragLayer
+    <im.device.appshare.animation.shortcut.view.DragLayer
         android:id="@+id/draglayer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -42,7 +42,7 @@
                 android:orientation="horizontal" >
             </LinearLayout>
         </HorizontalScrollView>
-    </com.pingan.pabank.activity.homepage.animation.shortcut.view.DragLayer>
+    </im.device.appshare.animation.shortcut.view.DragLayer>
     <ImageView android:id="@+id/iv_sun"
         android:layout_width="270dp"
         android:layout_height="210dp"
