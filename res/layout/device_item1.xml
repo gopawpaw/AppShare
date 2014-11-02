@@ -15,7 +15,8 @@
 	    android:singleLine="true"
 	    android:ems="6"
 	    android:ellipsize="end"
-	    android:gravity="center_horizontal"
+	    android:gravity="center"
+	    android:drawableLeft="@drawable/appshare_blutooth_icon"
     />
 <ImageView 
     android:layout_width="wrap_content"

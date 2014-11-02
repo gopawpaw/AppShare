@@ -44,9 +44,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gopawpaw.core.bluetooth.scanner.BluetoothScanner;
+import com.gopawpaw.core.bluetooth.scanner.ScannerCallback;
 import com.gopawpaw.droidcore.activity.BaseActivity;
-import com.pingan.core.bluetooth.scanner.BluetoothScanner;
-import com.pingan.core.bluetooth.scanner.ScannerCallback;
 
 /**
  * 

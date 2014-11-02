@@ -3,19 +3,54 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/appshare_bg" >
+	<LinearLayout 
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical"
+        >
+        <EditText android:id="@+id/et_app_input"
+            android:layout_height="wrap_content"
+       		android:layout_width="wrap_content"
+       		android:layout_marginLeft="10dip"
+       		android:layout_gravity="left|center_vertical"
+       		android:background="@drawable/appshare_search_app_input"
+            />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            />
+        <FrameLayout 
+            android:layout_height="100dp"
+            android:layout_width="100dp"
+            android:layout_marginRight="10dp"
+            >
+            <ImageView android:id="@+id/iv_bg"
+                android:layout_height="wrap_content"
+            	android:layout_width="wrap_content"
+            	android:layout_gravity="center"
+            	android:src="@drawable/appshare_search_blutooth_bg"
+                />
+            <ImageView android:id="@+id/iv_blutooth_icon"
+                android:layout_height="wrap_content"
+            	android:layout_width="wrap_content"
+            	android:layout_gravity="center"
+            	android:src="@drawable/appshare_search_blutooth_icon"
+                />
+        </FrameLayout>
+    </LinearLayout>
     <im.device.appshare.animation.shortcut.view.DragLayer
         android:id="@+id/draglayer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
         android:layout_alignParentTop="true"
-         >
-
+        android:orientation="vertical" >
         <HorizontalScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
-
             <LinearLayout
                 android:id="@+id/ll_apps"
                 android:layout_width="fill_parent"
@@ -24,17 +59,33 @@
                 android:orientation="horizontal" >
             </LinearLayout>
         </HorizontalScrollView>
-
         <View
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1" />
-
+            android:layout_weight="1"
+            />
+        <LinearLayout android:id="@+id/ll_finger"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal" 
+            >
+            <ImageView
+                android:id="@+id/iv_finger_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:src="@drawable/selector_finger_left" />
+            <ImageView
+                android:id="@+id/iv_finger_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:src="@drawable/selector_finger_right" />
+        </LinearLayout>
         <HorizontalScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
-
             <LinearLayout
                 android:id="@+id/ll_child"
                 android:layout_width="fill_parent"
@@ -43,23 +94,26 @@
             </LinearLayout>
         </HorizontalScrollView>
     </im.device.appshare.animation.shortcut.view.DragLayer>
-    <ImageView android:id="@+id/iv_sun"
+	
+    <ImageView
+        android:id="@+id/iv_sun"
         android:layout_width="270dp"
         android:layout_height="210dp"
-        android:src="@drawable/appshare_sun"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        />
+        android:layout_alignParentTop="true"
+        android:src="@drawable/appshare_sun" />
 
     <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginBottom="150dp"
-            android:layout_alignParentBottom="true"
-        	android:layout_alignParentRight="true"
-            android:src="@drawable/appshare_butterfly" />
-    
+        android:layout_width="30dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="150dp"
+        android:layout_marginRight="25dp"
+        android:src="@drawable/selector_butterfly" 
+        android:clickable="true"
+        />
+
     <im.device.appshare.TestView
         android:id="@+id/radar_scaner_testview"
         android:layout_width="fill_parent"

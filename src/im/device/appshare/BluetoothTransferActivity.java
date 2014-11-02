@@ -30,10 +30,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pingan.core.bluetooth.opp.BluetoothOppShareInfo;
-import com.pingan.core.bluetooth.share.BluetoothOppObexShare;
-import com.pingan.core.bluetooth.share.OppObexShareCallback;
-import com.pingan.core.bluetooth.share.OppObexShareCallback.StatusType;
+import com.gopawpaw.core.bluetooth.opp.BluetoothOppShareInfo;
+import com.gopawpaw.core.bluetooth.share.BluetoothOppObexShare;
+import com.gopawpaw.core.bluetooth.share.OppObexShareCallback;
+import com.gopawpaw.core.bluetooth.share.OppObexShareCallback.StatusType;
 
 /**
  * 蓝牙传输页面
