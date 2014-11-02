@@ -8,7 +8,6 @@
         android:layout_width="fill_parent"
         android:orientation="horizontal"
         android:layout_centerInParent="true"
-        android:gravity="center_vertical"
         >
         <EditText android:id="@+id/et_app_input"
             android:layout_height="wrap_content"
@@ -73,13 +72,20 @@
                 android:id="@+id/iv_finger_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
                 android:src="@drawable/selector_finger_left" />
+            <View
+            	android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:layout_weight="1"
+	            />
             <ImageView
                 android:id="@+id/iv_finger_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:clickable="true"
                 android:src="@drawable/selector_finger_right" />
         </LinearLayout>
         <HorizontalScrollView
@@ -104,15 +110,13 @@
         android:src="@drawable/appshare_sun" />
 
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="150dp"
-        android:layout_marginRight="25dp"
-        android:src="@drawable/selector_butterfly" 
-        android:clickable="true"
-        />
+	        android:layout_width="30dp"
+	        android:layout_height="60dp"
+	        android:layout_marginTop="55dp"
+	        android:src="@drawable/selector_butterfly" 
+	        android:clickable="true"
+	        android:layout_centerInParent="true"
+	        />
 
     <im.device.appshare.TestView
         android:id="@+id/radar_scaner_testview"
