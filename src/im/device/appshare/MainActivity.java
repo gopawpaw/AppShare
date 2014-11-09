@@ -19,6 +19,9 @@ import im.device.appshare.animation.shortcut.view.DragLayer.OnDragEndListener;
 import im.device.appshare.animation.shortcut.view.DragLayer.OnMoveListener;
 import im.device.appshare.utils.Tools;
 import im.device.appshare.utils.VibratorHelper;
+import im.device.appshare.widget.BluetoothScanerView;
+import im.device.appshare.widget.ObservableHorizontalScrollView;
+import im.device.appshare.widget.ObservableHorizontalScrollView.ScrollViewListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,22 +73,26 @@ import com.tendcloud.tenddata.TCAgent;
  * @modify 2014-10-22 下午10:40:15
  */
 public class MainActivity extends BaseActivity implements
-OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, ScannerCallback,HttpActionListener,OnClickListener{
+OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, ScannerCallback,HttpActionListener,OnClickListener,ScrollViewListener{
 
 	private static final int HANDLER_WHAT_FOUND_BLUTOOTH = 0;
 	
 	private static final int HANDLER_WHAT_FOUND_APP = 1;
 	
+	private static final int HANDLER_WHAT_SCROLL_ANIMATION = 2;
+	
+	private static final int HANDLER_WHAT_SCROLL_ANIMATION_START = 3;
+	
 	private LinearLayout mLLApps_a;
-	private LinearLayout mLLChild;
+	private LinearLayout mLLBlutooths;
 	private LayoutInflater mLayoutInflater;
 	private ImageView mIVSun;
 	private EditText mAppInput;
 	private ImageView mIVFingerLeft;
 	private ImageView mIVFingerRight;
 	private ImageView mIVHelp;
-//	private HorizontalListView mAppListView;
-	
+	private ObservableHorizontalScrollView mHSVBlutooths;
+	private BluetoothScanerView mBluetoothScanerView;
 	/**
 	 * 拖动层
 	 */
@@ -129,12 +136,14 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	
 //	private AppHorizontalListViewAdapter mAppsAdapter;
 	
+	private int mWindowWidth;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		mLLApps_a = (LinearLayout) findViewById(R.id.ll_apps);
-		mLLChild = (LinearLayout) findViewById(R.id.ll_child);
+		mLLBlutooths = (LinearLayout) findViewById(R.id.ll_blutooths);
+		mHSVBlutooths = (ObservableHorizontalScrollView) findViewById(R.id.hsv_blutooths);
 		mDragLayer = (DragLayer) findViewById(R.id.draglayer);
 		mIVSun = (ImageView) findViewById(R.id.iv_sun);
 		mAppInput = (EditText) findViewById(R.id.et_app_input);
@@ -142,12 +151,13 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		mIVFingerRight = (ImageView) findViewById(R.id.iv_finger_right);
 		mIVHelp = (ImageView) findViewById(R.id.iv_help);
 //		mAppListView =  (HorizontalListView) findViewById(R.id.hlv_apps);
+		mBluetoothScanerView = (BluetoothScanerView)findViewById(R.id.bsv_blutooth_scaner);
 		
 		mTestView = (TestView) findViewById(R.id.radar_scaner_testview);
 		
 		mLayoutInflater = LayoutInflater.from(this);
 		
-		mIVSun.startAnimation(getSunAnimation());
+//		mIVSun.startAnimation(getSunAnimation());
 		mDragLayer.setOnDockEndListener(this);
 		mDragLayer.setOnDragEndListener(this);
 		mDragLayer.setOnMoveListener(this);
@@ -155,10 +165,12 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		mIVFingerRight.setOnClickListener(this);
 		mIVHelp.setOnClickListener(this);
 		mAppInput.addTextChangedListener(mTextWatcher);
-		
+		mHSVBlutooths.setScrollViewListener(this);
 //		mAppsAdapter = new AppHorizontalListViewAdapter(this, mListData);
 //		mAppListView.setAdapter(mAppsAdapter);
 //		mAppsAdapter.setOnLongClickAppListener(this);
+		
+		mWindowWidth = this.getWindowManager().getDefaultDisplay().getWidth();
 		
 		LoadAsyncTask load = new LoadAsyncTask();
 		load.execute("");
@@ -187,6 +199,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		Map<String, Object> map = Tools.getDeviceInfo(this);
 		TCAgent.onEvent(this, "Open-AppShare",imei,map);
 		
+		mBluetoothScanerView.startScner();
 	}
 	
 	@Override
@@ -216,12 +229,30 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case HANDLER_WHAT_FOUND_BLUTOOTH:
-				BluetoothDevice deviceView = (BluetoothDevice) msg.obj;
-				updateDeviceView(deviceView,msg.arg1);
+				BluetoothDevice device = (BluetoothDevice) msg.obj;
+				for (int i = 0; i < 5; i++) {
+					updateDeviceView(device,msg.arg1);
+				}
 				break;
 			case HANDLER_WHAT_FOUND_APP:
 				List<PackageInfo> listData = (List<PackageInfo>) msg.obj;
 				updateAppsView(listData);
+				break;
+			case HANDLER_WHAT_SCROLL_ANIMATION:
+				int[] x = (int[]) msg.obj;
+				int p = msg.arg1;
+				AppLog.i(TAG, "p:"+p+" x[p]:"+x[p]);
+				if(p+1 < x.length){
+					mHSVBlutooths.scrollBy(x[p], 0);
+					actionScrollAnimation(x,p+1);
+				}
+				break;
+			case HANDLER_WHAT_SCROLL_ANIMATION_START:
+				this.removeMessages(HANDLER_WHAT_SCROLL_ANIMATION_START);
+				int offsetX = mLLBlutooths.getWidth() - mWindowWidth - mHSVBlutooths.getScrollX();
+				AppLog.d(TAG, "mLLBlutooths.getWidth():"+mLLBlutooths.getWidth()+" offsetX:"+offsetX+" mWindowWidth:"+mWindowWidth);
+				int[] xx = getAnimationX(offsetX);
+				actionScrollAnimation(xx,0);
 				break;
 			default:
 				break;
@@ -600,15 +631,48 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		}
 		
 		mViewBluetooth.add(view);
-		mLLChild.addView(view);
+		mLLBlutooths.addView(view);
 		TextView name = (TextView) view.findViewById(R.id.tv_name);
 		name.setText(device.getName());
 		view.setTag(device);
-//		mLLChild.scrollTo(mLLChild.getWidth(), 0);
-////		if(mLLChild.isScrollContainer()){
-			mIVFingerLeft.setVisibility(View.VISIBLE);
-			mIVFingerRight.setVisibility(View.VISIBLE);
-////		}
+		
+		mHandler.sendEmptyMessageDelayed(HANDLER_WHAT_SCROLL_ANIMATION_START, 500);
+	}
+	
+	private int[] getAnimationX(int offsetX){
+		if(offsetX < 10){
+			int[] x = new int[1];
+			x[0] = offsetX;
+			return x;
+		}else{
+			int a = 2;
+			int t = (int) Math.sqrt((offsetX/a));
+			int[] x = new int[2*t];
+			int s = 0;
+			for(int i=0;i<x.length;i++){
+				// S = a(t*t)/2;
+				int tt = (i+1);
+				if((i+1)>=t){
+					tt = (2*t) - (i+1);
+				}
+				int st = (a*(tt*tt))/2;
+				if(i>=x.length){
+					AppLog.d(TAG, "break i="+i+" x.length="+x.length);
+					break;
+				}
+				x[i] = Math.abs(st - s);
+				s = st;
+			}
+			return x;
+		}
+	}
+	
+	private void actionScrollAnimation(int[] x,int p){
+		Message msg = new Message();
+		msg.what = HANDLER_WHAT_SCROLL_ANIMATION;
+		msg.obj = x;
+		msg.arg1 = p;
+		mHandler.sendMessageDelayed(msg, 10);
 	}
 	
 	/**
@@ -738,10 +802,10 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 			startActivity(intent);
 			break;
 		case R.id.iv_finger_left:
-			
+			scrollBlutoothsToBegin();
 			break;
 		case R.id.iv_finger_right:
-			
+			scrollBlutoothsToEnd();
 			break;
 		default:
 			break;
@@ -772,5 +836,30 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		Tools.searchInfoInThread(MainActivity.this, mListData,
 						Tools.TYPE_APP_NAME, name,mHandler,HANDLER_WHAT_FOUND_APP);
 	}
+
+	@Override
+	public void onScrollChanged(ObservableHorizontalScrollView scrollView,
+			int x, int y, int oldx, int oldy) {
+		if(mHSVBlutooths == scrollView){
+			if(x == 0){
+				mIVFingerLeft.setVisibility(View.INVISIBLE);
+				mIVFingerRight.setVisibility(View.VISIBLE);
+			}else if (x == (mLLBlutooths.getWidth() - mWindowWidth)) {
+				mIVFingerLeft.setVisibility(View.VISIBLE);
+				mIVFingerRight.setVisibility(View.INVISIBLE);
+			}else {
+				mIVFingerLeft.setVisibility(View.VISIBLE);
+				mIVFingerRight.setVisibility(View.VISIBLE);
+			}
+		}
+	}
 	
+	private void scrollBlutoothsToBegin(){
+		mHSVBlutooths.scrollTo(0, 0);
+	}
+	
+	private void scrollBlutoothsToEnd(){
+		mHSVBlutooths.scrollTo(mLLBlutooths.getWidth() - mWindowWidth, 0);
+	}
+
 }

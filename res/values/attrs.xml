@@ -21,4 +21,10 @@
 		
 	</declare-styleable>
 	
+	<declare-styleable name="BluetoothScanerView">
+		<attr name="scanerIconA" format="reference"></attr>
+		<attr name="scanerIconB" format="reference"></attr>
+		<attr name="scanerCircleRadius" format="dimension"></attr>
+	</declare-styleable>
+	
 </resources>

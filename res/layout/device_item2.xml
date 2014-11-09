@@ -13,16 +13,18 @@
   		android:focusable="false"
 	    android:clickable="false"
 	    android:singleLine="true"
-	    android:ems="6"
 	    android:ellipsize="end"
+	    android:ems="10"
 	    android:gravity="center"
-	    android:drawableLeft="@drawable/appshare_blutooth_icon"
+	    android:textSize="10sp"
+	    android:background="@drawable/appshare_blutooth_name_bg"
     />
 <ImageView 
     android:layout_width="wrap_content"
   	android:layout_height="wrap_content"
+  	android:layout_marginTop="5dp"
   	android:background="@drawable/selector_child2"
-  	android:focusable="false"
-	android:clickable="false"
+  	android:focusable="true"
+	android:clickable="true"
     />
 </LinearLayout>

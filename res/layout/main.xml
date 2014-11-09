@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/im.device.appshare"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/appshare_bg" >
+    android:background="@drawable/appshare_bg">
 
     <LinearLayout
         android:id="@+id/ll_search"
@@ -30,7 +31,7 @@
             android:layout_height="100dp"
             android:layout_marginRight="10dp" >
 
-            <ImageView
+            <!-- <ImageView
                 android:id="@+id/iv_blutooth_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,10 +43,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/appshare_search_blutooth_icon" />
+                android:src="@drawable/appshare_search_blutooth_icon" /> -->
+                <im.device.appshare.widget.BluetoothScanerView
+                android:id="@+id/bsv_blutooth_scaner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/appshare_search_blutooth_bg" 
+                app:scanerIconA="@drawable/appshare_search_blutooth_icon_a"
+                app:scanerIconB="@drawable/appshare_search_blutooth_icon_b"
+                app:scanerCircleRadius="25dp"
+                />
         </FrameLayout>
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/iv_help"
+        android:layout_width="30dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/ll_search"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="-20dp"
+        android:layout_marginTop="-10dp"
+        android:clickable="true"
+        android:src="@drawable/selector_butterfly" />
+    
     <im.device.appshare.animation.shortcut.view.DragLayer
         android:id="@+id/draglayer"
         android:layout_width="fill_parent"
@@ -53,7 +75,7 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
         
-        <HorizontalScrollView
+        <im.device.appshare.widget.ObservableHorizontalScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
@@ -65,7 +87,7 @@
                 android:orientation="horizontal" 
                 >
             </LinearLayout>
-        </HorizontalScrollView>
+        </im.device.appshare.widget.ObservableHorizontalScrollView>
 <!--         <im.device.appshare.widget.HorizontalListView -->
 <!--             android:id="@+id/hlv_apps" -->
 <!--             android:layout_width="match_parent" -->
@@ -108,19 +130,19 @@
                 android:visibility="invisible" />
         </LinearLayout>
 
-        <HorizontalScrollView
+        <im.device.appshare.widget.ObservableHorizontalScrollView android:id="@+id/hsv_blutooths"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
 
             <LinearLayout
-                android:id="@+id/ll_child"
+                android:id="@+id/ll_blutooths"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal"
                  >
             </LinearLayout>
-        </HorizontalScrollView>
+        </im.device.appshare.widget.ObservableHorizontalScrollView>
     </im.device.appshare.animation.shortcut.view.DragLayer>
 
     <ImageView
@@ -130,17 +152,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/appshare_sun" />
-
-    <ImageView
-        android:id="@+id/iv_help"
-        android:layout_width="30dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/ll_search"
-        android:layout_centerHorizontal="true"
-        android:layout_marginRight="-20dp"
-        android:layout_marginTop="-10dp"
-        android:clickable="true"
-        android:src="@drawable/selector_butterfly" />
 
     <im.device.appshare.TestView
         android:id="@+id/radar_scaner_testview"
