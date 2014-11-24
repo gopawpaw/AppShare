@@ -230,9 +230,9 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 			switch (msg.what) {
 			case HANDLER_WHAT_FOUND_BLUTOOTH:
 				BluetoothDevice device = (BluetoothDevice) msg.obj;
-				for (int i = 0; i < 5; i++) {
+//				for (int i = 0; i < 5; i++) {
 					updateDeviceView(device,msg.arg1);
-				}
+//				}
 				break;
 			case HANDLER_WHAT_FOUND_APP:
 				List<PackageInfo> listData = (List<PackageInfo>) msg.obj;
@@ -841,10 +841,10 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	public void onScrollChanged(ObservableHorizontalScrollView scrollView,
 			int x, int y, int oldx, int oldy) {
 		if(mHSVBlutooths == scrollView){
-			if(x == 0){
+			if(x < 10){
 				mIVFingerLeft.setVisibility(View.INVISIBLE);
 				mIVFingerRight.setVisibility(View.VISIBLE);
-			}else if (x == (mLLBlutooths.getWidth() - mWindowWidth)) {
+			}else if (x >= (mLLBlutooths.getWidth() - mWindowWidth - 10)) {
 				mIVFingerLeft.setVisibility(View.VISIBLE);
 				mIVFingerRight.setVisibility(View.INVISIBLE);
 			}else {

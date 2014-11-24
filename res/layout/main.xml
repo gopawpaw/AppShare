@@ -88,12 +88,6 @@
                 >
             </LinearLayout>
         </im.device.appshare.widget.ObservableHorizontalScrollView>
-<!--         <im.device.appshare.widget.HorizontalListView -->
-<!--             android:id="@+id/hlv_apps" -->
-<!--             android:layout_width="match_parent" -->
-<!--             android:layout_height="220dip" -->
-<!--             android:layout_alignParentTop="true" > -->
-<!--         </im.device.appshare.widget.HorizontalListView> -->
 
         <View
             android:layout_width="fill_parent"
