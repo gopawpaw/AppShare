@@ -25,7 +25,7 @@
 		<meta-data android:name="TD_APP_ID" android:value="9D92AD3B042AC1A063F661B48EEBF801"/> 
 		<meta-data android:name="TD_CHANNEL_ID" android:value="@string/channel_device_im"/>
 		
-		<activity android:name=".MainActivity" android:label="@string/app_name"
+		<activity android:name=".LunchActivity" android:label="@string/app_name"
 			android:theme="@android:style/Theme.Black.NoTitleBar"
 			android:windowSoftInputMode="adjustUnspecified|stateHidden"
 		>
@@ -33,6 +33,12 @@
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
+		</activity>
+		
+		<activity android:name=".MainActivity" android:label="@string/app_name"
+			android:theme="@android:style/Theme.Black.NoTitleBar"
+			android:windowSoftInputMode="adjustUnspecified|stateHidden"
+		>
 		</activity>
 		
 		<activity android:name=".BluetoothTransferActivity" android:label="@string/app_name"

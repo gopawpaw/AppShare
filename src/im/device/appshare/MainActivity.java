@@ -83,6 +83,8 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	
 	private static final int HANDLER_WHAT_SCROLL_ANIMATION_START = 3;
 	
+	private static final int HANDLER_WHAT_ACTION_SCANER= 4;
+	
 	private LinearLayout mLLApps;
 	private LinearLayout mLLBlutooths;
 	private LayoutInflater mLayoutInflater;
@@ -137,9 +139,13 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	private String mApkUrl = null;
 	
 	private int mWindowWidth;
+	
+	private LoadAsyncTask load;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AppLog.d(TAG, "onCreate load="+load);
 		setContentView(R.layout.main);
 		mLLApps = (LinearLayout) findViewById(R.id.ll_apps);
 		mLLBlutooths = (LinearLayout) findViewById(R.id.ll_blutooths);
@@ -172,7 +178,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		
 		mWindowWidth = this.getWindowManager().getDefaultDisplay().getWidth();
 		
-		LoadAsyncTask load = new LoadAsyncTask();
+		load = new LoadAsyncTask();
 		load.execute("");
 		
 		TCAgent.init(this);
@@ -197,13 +203,13 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		Map<String, Object> map = Tools.getDeviceInfo(this);
 		TCAgent.onEvent(this, "Open-AppShare",imei,map);
 		
-		mBluetoothScanerView.startScner();
+//		mBluetoothScanerView.startScner();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		startScanerRadar();
+//		startScanerRadar();
 	}
 	
 	@Override
@@ -218,10 +224,19 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		
 		if(bluetoothScanner != null){
 			bluetoothScanner.closeBluetooth();
 			bluetoothScanner = null;
 		}
+		
+		if (load != null && load.getStatus() != AsyncTask.Status.FINISHED){
+			load.cancel(true);
+			AppLog.d(TAG, "onDestroy load.isCancelled:"+load.isCancelled());
+			load = null;
+		}
+		
+		mHandler.removeMessages(HANDLER_WHAT_ACTION_SCANER);
 	}
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
@@ -251,6 +266,13 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 				AppLog.d(TAG, "mLLBlutooths.getWidth():"+mLLBlutooths.getWidth()+" offsetX:"+offsetX+" mWindowWidth:"+mWindowWidth);
 				int[] xx = getAnimationX(offsetX);
 				actionScrollAnimation(xx,0);
+				break;
+			case HANDLER_WHAT_ACTION_SCANER:
+				this.removeMessages(HANDLER_WHAT_ACTION_SCANER);
+				AppLog.i(TAG, "actionScaner = false isContinuScaner="+isContinuScaner);
+				if(isContinuScaner){
+					bluetoothScanner.startDiscovery();
+				}
 				break;
 			default:
 				break;
@@ -434,13 +456,39 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		
 		@Override
 		protected List<PackageInfo> doInBackground(String... params) {
+			if(isCancelled()) return null;
 			List<PackageInfo> list = getAppItemViewList();
+			if(isCancelled()) return null;
 			Collections.sort(list, mAppComparator);
+			if(isCancelled()) return null;
 			return list;
 		}
 		
 		@Override
+		protected void onProgressUpdate(Integer... values) {
+			if(isCancelled()) return ;
+			super.onProgressUpdate(values);
+		}
+		
+		@Override
+		protected void onCancelled() {
+			// TODO Auto-generated method stub
+			super.onCancelled();
+			AppLog.d(TAG, "LoadAsyncTask onCancelled");
+		}
+		
+		@Override
+		protected void onCancelled(List<PackageInfo> result) {
+			// TODO Auto-generated method stub
+			super.onCancelled(result);
+			AppLog.d(TAG, "LoadAsyncTask onCancelled result:"+result);
+		}
+		
+		@Override
 		protected void onPostExecute(List<PackageInfo> result) {
+			AppLog.w(TAG, "onPostExecute isCancelled():"+isCancelled());
+			if(isCancelled()) return ;
+			
 			mListData = result;
 			updateAppsView(result);
 		}
@@ -533,7 +581,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 				view.setTag(packageInfo);
 				view.setOnLongClickListener(this);
 				mLLApps.addView(view);
-				view.startAnimation(im.device.appshare.utils.AnimationUtils.getAppRadomAnimation());
+//				view.startAnimation(im.device.appshare.utils.AnimationUtils.getAppRadomAnimation());
 			}
 		}
 		AppLog.i(TAG, "updateAppsView end");
@@ -549,7 +597,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 			bluetoothScanner.cancelDiscovery();
 			bluetoothScanner = null;
 		}
-		bluetoothScanner = BluetoothScanner.Factory.create(this);
+		bluetoothScanner = BluetoothScanner.Factory.create(this.getApplicationContext());
 		bluetoothScanner.setCallback(this);
 		isContinuScaner = true;
 		actionScaner();
@@ -564,15 +612,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	
 	private void actionScaner(){
 		if(!bluetoothScanner.startDiscovery()){
-			mHandler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					AppLog.i(TAG, "actionScaner = false isContinuScaner="+isContinuScaner);
-					if(isContinuScaner){
-						bluetoothScanner.startDiscovery();
-					}
-				}
-			}, 4000);
+			mHandler.sendEmptyMessageDelayed(HANDLER_WHAT_ACTION_SCANER, 4000);
 		}else{
 			AppLog.i(TAG, "actionScaner = true");
 		}
@@ -580,6 +620,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	
 	@Override
 	public void onFoundDevice(BluetoothDevice device,short rssi) {
+		AppLog.w(TAG, "onFoundDevice isFinishing():"+isFinishing()+" "+this);
 		if(device != null){
 			String key = device.getName()+":"+device.getAddress();
 			AppLog.i(TAG, "onFoundDevice:"+key);
