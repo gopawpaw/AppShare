@@ -83,15 +83,17 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	
 	private static final int HANDLER_WHAT_SCROLL_ANIMATION_START = 3;
 	
-	private LinearLayout mLLApps_a;
+	private LinearLayout mLLApps;
 	private LinearLayout mLLBlutooths;
 	private LayoutInflater mLayoutInflater;
-	private ImageView mIVSun;
 	private EditText mAppInput;
 	private ImageView mIVFingerLeft;
 	private ImageView mIVFingerRight;
+	private ImageView mIVMoreAppLeft;
+	private ImageView mIVMoreAppRight;
 	private ImageView mIVHelp;
 	private ObservableHorizontalScrollView mHSVBlutooths;
+	private ObservableHorizontalScrollView mHSVApps;
 	private BluetoothScanerView mBluetoothScanerView;
 	/**
 	 * 拖动层
@@ -134,41 +136,39 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	
 	private String mApkUrl = null;
 	
-//	private AppHorizontalListViewAdapter mAppsAdapter;
-	
 	private int mWindowWidth;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		mLLApps_a = (LinearLayout) findViewById(R.id.ll_apps);
+		mLLApps = (LinearLayout) findViewById(R.id.ll_apps);
 		mLLBlutooths = (LinearLayout) findViewById(R.id.ll_blutooths);
 		mHSVBlutooths = (ObservableHorizontalScrollView) findViewById(R.id.hsv_blutooths);
+		mHSVApps = (ObservableHorizontalScrollView) findViewById(R.id.hsv_apps);
 		mDragLayer = (DragLayer) findViewById(R.id.draglayer);
-		mIVSun = (ImageView) findViewById(R.id.iv_sun);
 		mAppInput = (EditText) findViewById(R.id.et_app_input);
 		mIVFingerLeft = (ImageView) findViewById(R.id.iv_finger_left);
 		mIVFingerRight = (ImageView) findViewById(R.id.iv_finger_right);
+		mIVMoreAppLeft = (ImageView) findViewById(R.id.iv_more_app_left);
+		mIVMoreAppRight = (ImageView) findViewById(R.id.iv_more_app_right);
 		mIVHelp = (ImageView) findViewById(R.id.iv_help);
-//		mAppListView =  (HorizontalListView) findViewById(R.id.hlv_apps);
 		mBluetoothScanerView = (BluetoothScanerView)findViewById(R.id.bsv_blutooth_scaner);
 		
 		mTestView = (TestView) findViewById(R.id.radar_scaner_testview);
 		
 		mLayoutInflater = LayoutInflater.from(this);
 		
-//		mIVSun.startAnimation(getSunAnimation());
 		mDragLayer.setOnDockEndListener(this);
 		mDragLayer.setOnDragEndListener(this);
 		mDragLayer.setOnMoveListener(this);
 		mIVFingerLeft.setOnClickListener(this);
 		mIVFingerRight.setOnClickListener(this);
+		mIVMoreAppLeft.setOnClickListener(this);
+		mIVMoreAppRight.setOnClickListener(this);
 		mIVHelp.setOnClickListener(this);
 		mAppInput.addTextChangedListener(mTextWatcher);
 		mHSVBlutooths.setScrollViewListener(this);
-//		mAppsAdapter = new AppHorizontalListViewAdapter(this, mListData);
-//		mAppListView.setAdapter(mAppsAdapter);
-//		mAppsAdapter.setOnLongClickAppListener(this);
+		mHSVApps.setScrollViewListener(this);
 		
 		mWindowWidth = this.getWindowManager().getDefaultDisplay().getWidth();
 		
@@ -182,8 +182,6 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		}else{
 			HttpHelper.setHostUrl(AppConfig.URL_ID_HOST_STG);
 		}
-		
-		
 		
 		String imei = CommonUtils.getIMEI(this);
 		
@@ -469,46 +467,29 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 
 		@Override
 		public int compare(PackageInfo lhs, PackageInfo rhs) {
-			boolean isPinganObject1 = lhs.packageName.startsWith("com.pingan");
-			boolean isPinganObject2 = rhs.packageName.startsWith("com.pingan");
-			if(isPinganObject1 && !isPinganObject2){
-				return -1;
-			}else if(!isPinganObject1 && isPinganObject2){
-				return 1;
-			}else{
-				String appName1 = lhs.applicationInfo.loadLabel(
-						MainActivity.this.getPackageManager()).toString();
-				String appName2 = rhs.applicationInfo.loadLabel(
-						MainActivity.this.getPackageManager()).toString();
-				isPinganObject1 = appName1.contains("平安");
-				isPinganObject2 = appName2.contains("平安");
-				
-				if(isPinganObject1 && !isPinganObject2){
-					return -1;
-				}else if(!isPinganObject1 && isPinganObject2){
-					return 1;
-				}else{
-					return 0;
-				}
-			}
+			String appName1 = lhs.applicationInfo.loadLabel(
+					MainActivity.this.getPackageManager()).toString();
+			String appName2 = rhs.applicationInfo.loadLabel(
+					MainActivity.this.getPackageManager()).toString();
+			return appName1.compareTo(appName2);
 		}
 	}
 	
 	@SuppressLint("NewApi")
 	private void updateAppsView(List<PackageInfo> data){
-//		mAppsAdapter.setData(data);
-//		mAppsAdapter.notifyDataSetChanged();
-		
-		int count = mLLApps_a.getChildCount();
+		AppLog.i(TAG, "updateAppsView start");
+		int count = mLLApps.getChildCount();
 		if(count>0){
-			AppLog.d(TAG, "mLLApps_a.getWidth befor:"+mLLApps_a.getWidth());
+			AppLog.d(TAG, "mLLApps.getWidth befor:"+mLLApps.getWidth()+" count:"+count);
 			for (int i = 0; i < count; i++) {
-				View v = mLLApps_a.getChildAt(i);
+				View v = mLLApps.getChildAt(i);
 				boolean flag = false;
 				PackageInfo packageInfo = (PackageInfo) v.getTag();
+				AppLog.i(TAG, "updateAppsView i"+i+" "+packageInfo.packageName);
 				for(int n=0;n<data.size();n++){
 					PackageInfo pi = data.get(n);
 					if(packageInfo.packageName.equals(pi.packageName)){
+						AppLog.d(TAG, "updateAppsView i"+i+" "+packageInfo.packageName);
 						v.setVisibility(View.VISIBLE);
 						v.startAnimation(im.device.appshare.utils.AnimationUtils.getAppRadomAnimation());
 						flag = true;
@@ -516,8 +497,11 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 					}
 				}
 				if(!flag){
-					v.getAnimation().cancel();
-					v.clearAnimation();
+					Animation a = v.getAnimation();
+					if(a != null){
+						a.cancel();
+						v.clearAnimation();
+					}
 					v.setVisibility(View.GONE);
 				}
 			}
@@ -548,9 +532,15 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 				tvAppName.setText(appName);
 				view.setTag(packageInfo);
 				view.setOnLongClickListener(this);
-				mLLApps_a.addView(view);
+				mLLApps.addView(view);
 				view.startAnimation(im.device.appshare.utils.AnimationUtils.getAppRadomAnimation());
 			}
+		}
+		AppLog.i(TAG, "updateAppsView end");
+		if(mLLApps.getWidth() >= mWindowWidth){
+			mIVMoreAppRight.setVisibility(View.VISIBLE);
+		}else{
+			mIVMoreAppRight.setVisibility(View.INVISIBLE);
 		}
 	}
 	
@@ -637,6 +627,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		view.setTag(device);
 		
 		mHandler.sendEmptyMessageDelayed(HANDLER_WHAT_SCROLL_ANIMATION_START, 500);
+		
 	}
 	
 	private int[] getAnimationX(int offsetX){
@@ -807,6 +798,12 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		case R.id.iv_finger_right:
 			scrollBlutoothsToEnd();
 			break;
+		case R.id.iv_more_app_left:
+			scrollAppToBegin();
+			break;
+		case R.id.iv_more_app_right:
+			scrollAppToEnd();
+			break;
 		default:
 			break;
 		}
@@ -833,6 +830,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	};
 	
 	private void searchAppsName(final String name) {
+		AppLog.i(TAG, "searchAppsName : "+name);
 		Tools.searchInfoInThread(MainActivity.this, mListData,
 						Tools.TYPE_APP_NAME, name,mHandler,HANDLER_WHAT_FOUND_APP);
 	}
@@ -841,15 +839,34 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	public void onScrollChanged(ObservableHorizontalScrollView scrollView,
 			int x, int y, int oldx, int oldy) {
 		if(mHSVBlutooths == scrollView){
-			if(x < 10){
-				mIVFingerLeft.setVisibility(View.INVISIBLE);
-				mIVFingerRight.setVisibility(View.VISIBLE);
-			}else if (x >= (mLLBlutooths.getWidth() - mWindowWidth - 10)) {
-				mIVFingerLeft.setVisibility(View.VISIBLE);
+			if(mLLBlutooths.getWidth() < mWindowWidth){
 				mIVFingerRight.setVisibility(View.INVISIBLE);
-			}else {
-				mIVFingerLeft.setVisibility(View.VISIBLE);
-				mIVFingerRight.setVisibility(View.VISIBLE);
+			}else{
+				if(x < 10){
+					mIVFingerLeft.setVisibility(View.INVISIBLE);
+					mIVFingerRight.setVisibility(View.VISIBLE);
+				}else if (x >= (mLLBlutooths.getWidth() - mWindowWidth - 10)) {
+					mIVFingerLeft.setVisibility(View.VISIBLE);
+					mIVFingerRight.setVisibility(View.INVISIBLE);
+				}else {
+					mIVFingerLeft.setVisibility(View.VISIBLE);
+					mIVFingerRight.setVisibility(View.VISIBLE);
+				}
+			}
+		}else if(mHSVApps == scrollView){
+			if(mLLApps.getWidth() < mWindowWidth){
+				mIVMoreAppRight.setVisibility(View.INVISIBLE);
+			}else{
+				if(x < 10){
+					mIVMoreAppLeft.setVisibility(View.INVISIBLE);
+					mIVMoreAppRight.setVisibility(View.VISIBLE);
+				}else if (x >= (mLLApps.getWidth() - mWindowWidth - 10)) {
+					mIVMoreAppLeft.setVisibility(View.VISIBLE);
+					mIVMoreAppRight.setVisibility(View.INVISIBLE);
+				}else {
+					mIVMoreAppLeft.setVisibility(View.VISIBLE);
+					mIVMoreAppRight.setVisibility(View.VISIBLE);
+				}
 			}
 		}
 	}
@@ -862,4 +879,11 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		mHSVBlutooths.scrollTo(mLLBlutooths.getWidth() - mWindowWidth, 0);
 	}
 
+	private void scrollAppToBegin(){
+		mHSVApps.scrollTo(0, 0);
+	}
+	
+	private void scrollAppToEnd(){
+		mHSVApps.scrollTo(mLLApps.getWidth() - mWindowWidth, 0);
+	}
 }

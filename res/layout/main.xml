@@ -75,7 +75,7 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
         
-        <im.device.appshare.widget.ObservableHorizontalScrollView
+        <im.device.appshare.widget.ObservableHorizontalScrollView android:id="@+id/hsv_apps"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
@@ -85,6 +85,7 @@
                 android:layout_height="220dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" 
+                android:minWidth="400dp"
                 >
             </LinearLayout>
         </im.device.appshare.widget.ObservableHorizontalScrollView>
@@ -147,6 +148,39 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/appshare_sun" />
 
+    <LinearLayout
+            android:id="@+id/ll_more_app"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal" 
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="7dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_more_app_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:src="@drawable/selector_more_app"
+                android:visibility="invisible" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/iv_more_app_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:clickable="true"
+                android:src="@drawable/selector_more_app"
+                android:visibility="invisible" />
+        </LinearLayout>
+        
     <im.device.appshare.TestView
         android:id="@+id/radar_scaner_testview"
         android:layout_width="fill_parent"

@@ -192,6 +192,10 @@ public class BluetoothScanerView extends View {
 		}
 	}
 	
+	protected void onDetachedFromWindow() {
+		stopScner();
+		super.onDetachedFromWindow();
+	};
 	Paint mPaint = new Paint();
 
 	private Point getCirclePoint(int centerX, int centerY, float radius,

@@ -26,6 +26,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +63,7 @@ public class BluetoothTransferActivity extends Activity implements OnClickListen
 	private TextView mTextViewName;
 	private CircleProgresBar mCircleProgresBar;
 	private ImageView mIcon;
-	private ImageView mClose;
+	private Button mClose;
 	private TextView mTVFilesize,mTVSendsize,mTVTranspeed,mTVNeedtime;
 	private int mProgressTotal = 0;
 	private long mStartTime = 0;
@@ -84,7 +85,7 @@ public class BluetoothTransferActivity extends Activity implements OnClickListen
 		
 		mTextViewName = (TextView) findViewById(R.id.name);
 		mCircleProgresBar = (CircleProgresBar) findViewById(R.id.progress);
-		mClose = (ImageView) findViewById(R.id.close);
+		mClose = (Button) findViewById(R.id.close);
 		mIcon = (ImageView) findViewById(R.id.icon);
 		mTVFilesize = (TextView) findViewById(R.id.tv_filesize);
 		mTVSendsize = (TextView) findViewById(R.id.tv_sendsize);

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res/im.device.appshare"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#B3D9D9"
+    android:background="@drawable/appshare_bg2"
     android:orientation="vertical"
      >
 
@@ -11,7 +11,7 @@
         android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="16sp"
@@ -19,9 +19,11 @@
         >
     </TextView>
     <RelativeLayout 
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_margin="10dp"
         android:layout_gravity="center"
+        android:background="@drawable/appshare_content_bg"
         >
         <im.device.appshare.widget.CircleProgresBar
         		android:id="@+id/progress"
@@ -102,14 +104,16 @@
        />
 	</LinearLayout>
         
-    <ImageView
+    <Button
         android:id="@+id/close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/selector_close" 
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/selector_cancel_transfer" 
+        android:text="@string/cancel"
+        android:textColor="@color/tab_text_color"
         />
 
 </LinearLayout>
