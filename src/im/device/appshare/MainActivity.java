@@ -106,7 +106,6 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 	 * 蓝牙View列表,用于计算是否发生碰撞
 	 */
 	private ArrayList<View> mViewBluetooth = new ArrayList<View>();
-//	private ArrayList<View> mViewApps = new ArrayList<View>();
 	/**
 	 * 发生碰撞的蓝牙
 	 */
@@ -203,13 +202,13 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 		Map<String, Object> map = Tools.getDeviceInfo(this);
 		TCAgent.onEvent(this, "Open-AppShare",imei,map);
 		
-//		mBluetoothScanerView.startScner();
+		mBluetoothScanerView.startScner();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		startScanerRadar();
+		startScanerRadar();
 	}
 	
 	@Override
@@ -581,7 +580,7 @@ OnDockEndListener, OnDragEndListener,OnMoveListener,OnLongClickListener, Scanner
 				view.setTag(packageInfo);
 				view.setOnLongClickListener(this);
 				mLLApps.addView(view);
-//				view.startAnimation(im.device.appshare.utils.AnimationUtils.getAppRadomAnimation());
+				view.startAnimation(im.device.appshare.utils.AnimationUtils.getAppRadomAnimation());
 			}
 		}
 		AppLog.i(TAG, "updateAppsView end");

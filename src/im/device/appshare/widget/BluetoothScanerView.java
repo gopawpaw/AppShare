@@ -141,7 +141,7 @@ public class BluetoothScanerView extends View {
 							return;
 						}
 						mCurrentPoint = p;
-						AppLog.d(TAG, "HANDLER_WAHT_UPDATE x:"+mCurrentPoint.x+" y:"+mCurrentPoint.y);
+//						AppLog.d(TAG, "HANDLER_WAHT_UPDATE x:"+mCurrentPoint.x+" y:"+mCurrentPoint.y);
 						postInvalidate();
 						++index;
 						if(index>=mListPoint.size()){
@@ -150,7 +150,7 @@ public class BluetoothScanerView extends View {
 						Message m = new Message();
 						m.what = HANDLER_WAHT_UPDATE;
 						m.arg1 = index;
-						mHandler.sendMessageDelayed(m, 50);
+						mHandler.sendMessageDelayed(m, 100);
 					}
 					break;
 				default:
